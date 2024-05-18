@@ -1,0 +1,5 @@
+﻿  Game.cpp
+C:\Users\Michael Santos\Desktop\Projects\CPPGame\CPPGame\Game.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Michael Santos\Desktop\Projects\CPPGame\CPPGame\Player.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Michael Santos\Desktop\Projects\CPPGame\CPPGame\Game.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  CPPGame.vcxproj -> C:\Users\Michael Santos\Desktop\Projects\CPPGame\x64\Debug\CPPGame.exe
