@@ -9,3 +9,7 @@ Vector2::Vector2(int x, int y) {
 	this->x = x;
 	this->y = y;
 }
+
+int Utilities::GetRandomNumber(int max) {
+	return rand() % max + 1;
+}

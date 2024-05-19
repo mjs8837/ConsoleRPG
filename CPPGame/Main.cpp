@@ -76,6 +76,41 @@ int GetBoardHeight() {
     return height;
 }
 
+/// <summary>
+/// Helper function to set the difficulty of the game based on user input.
+/// </summary>
+/// <returns>Returns the level of difficulty as an int.</returns>
+int SetDifficulty() {
+    char difficultyChoice;
+    bool validChoice = false;
+
+    while (!validChoice) {
+        std::cout << "Please choose a difficulty.\n";
+        std::cout << "Easy[E], Medium[M], Hard[H]: ";
+        std::cin >> difficultyChoice;
+
+        switch (std::toupper(difficultyChoice)) {
+        case 'E':
+            return 0;
+            validChoice = true;
+            break;
+        case 'M':
+            return 1;
+            validChoice = true;
+            break;
+        case 'H':
+            return 2;
+            validChoice = true;
+            break;
+        default:
+            std::cout << "Invalid input.\n";
+            break;
+        }
+    }
+
+    return 0;
+}
+
 #pragma endregion
 
 #pragma region Main
@@ -86,26 +121,28 @@ int GetBoardHeight() {
 void Start() {
     srand(time(NULL));
 
-    // Creating a game instance.
-    Game game = Game();
+    //Game::CreateInstance();
+    //Game* gameInstance = Game::GameInstance;
+    Game* gameInstance = new Game();
 
     // Setting the player's name from user input.
     std::cout << "Hello and welcome to my C++ game!\n";
     std::cout << "Please enter your name: ";
-    game.player->SetName(GetName());
-    std::cout << "Welcome " + game.player->GetName() + "!\n";
-
-    // Setting the board height and width.
-    game.board->SetWidth(GetBoardWidth());
-    game.board->SetHeight(GetBoardHeight());
+    gameInstance->player->SetName(GetName());
+    std::cout << "Welcome " + gameInstance->player->GetName() + "!\n";
+    
+    // Setting the difficulty of the game.
+    gameInstance->currentDifficulty = (Difficulty)SetDifficulty();
+    gameInstance->CreateBoard();
 
     // Setting the player at a random location and drawing the initial board.
-    game.player->SetPosition(rand() % game.board->GetWidth() + 1, rand() % game.board->GetHeight() + 1);
-    std::cout << game.player->GetPosition().x << game.player->GetPosition().y;
-    game.board->DrawBoard(game.player->GetPosition());
+    gameInstance->player->SetPosition(Utilities::GetRandomNumber(gameInstance->board->GetWidth()), Utilities::GetRandomNumber(gameInstance->board->GetHeight()));
+    gameInstance->board->DrawBoard(gameInstance->player->GetPosition(), gameInstance->enemyList);
+
+    //std::cout << game.enemyList.size();
 
     // Starts the first update call.
-    game.Update();
+    gameInstance->Update();
 }
 
 int main()

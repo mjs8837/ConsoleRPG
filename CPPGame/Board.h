@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Utilities.h"
+#include "Enemy.h"
 
 class Board {
 
@@ -14,7 +15,7 @@ public:
 	/// <summary>
 	/// Function to draw the initial board in the console.
 	/// </summary>
-	void DrawBoard(Vector2 playerPosition);
+	void DrawBoard(Vector2 playerPosition, std::vector<Enemy*> enemies);
 
 	/// <summary>
 	/// Function to get the width of the board.

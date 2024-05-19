@@ -5,13 +5,27 @@ Board::Board() {
 	this->width = 0;
 }
 
-void Board::DrawBoard(Vector2 playerPosition) {
+void Board::DrawBoard(Vector2 playerPosition, std::vector<Enemy*> enemies) {
+	bool drawEnemy = false;
+
 	// Looping through the height and width and drawing the appropriate starting board.
 	for (int i = 1; i <= Board::GetHeight(); i++) {
 		std::cout << "\n";
 		for (int j = 1; j <= Board::GetWidth(); j++) {
-			// Checking when to draw the player into the board.
-			if (j == playerPosition.x && i == playerPosition.y) {
+
+			for (int k = 0; k < enemies.size(); k++) {
+				if (j == enemies[k]->GetPosition().x && i == enemies[k]->GetPosition().y) {
+					drawEnemy = true;
+					break;
+				}
+			}
+
+			// Checking when to draw an enemy, player, or empty spot.
+			if (drawEnemy) {
+				std::cout << "E";
+				drawEnemy = false;
+			}
+			else if (j == playerPosition.x && i == playerPosition.y) {
 				std::cout << "P";
 			}
 			else {
@@ -19,6 +33,8 @@ void Board::DrawBoard(Vector2 playerPosition) {
 			}
 		}
 	}
+	
+	std::cout << "\n";
 }
 
 int Board::GetWidth() {

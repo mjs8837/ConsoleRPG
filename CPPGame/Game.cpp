@@ -5,6 +5,53 @@ Game::Game() {
 	playing = true;
 	player = new Player();
 	board = new Board();
+	enemyList = std::vector<Enemy*>();
+	currentDifficulty = Easy;
+}
+
+void Game::CreateInstance() {
+	//GameInstance = new Game();
+}
+
+void Game::CreateBoard() {
+	switch (currentDifficulty) {
+
+		case Easy:
+			board->SetWidth(10);
+			board->SetHeight(5);
+			
+			for (int i = 0; i < 3; i++) {
+				Enemy* enemy = new MeleeEnemy();
+				enemy->SetPosition(Utilities::GetRandomNumber(board->GetWidth()), Utilities::GetRandomNumber(board->GetHeight()));
+				enemyList.push_back(enemy);
+			}
+
+			break;
+
+		case Medium:
+			board->SetWidth(20);
+			board->SetHeight(10);
+
+			for (int i = 0; i < 5; i++) {
+				Enemy* enemy = new MeleeEnemy();
+				enemy->SetPosition(Utilities::GetRandomNumber(board->GetWidth()), Utilities::GetRandomNumber(board->GetHeight()));
+				enemyList.push_back(enemy);
+			}
+
+			break;
+
+		case Hard:
+			board->SetWidth(30);
+			board->SetHeight(15);
+
+			for (int i = 0; i < 7; i++) {
+				Enemy* enemy = new MeleeEnemy();
+				enemy->SetPosition(Utilities::GetRandomNumber(board->GetWidth()), Utilities::GetRandomNumber(board->GetHeight()));
+				enemyList.push_back(enemy);
+			}
+
+			break;
+	}
 }
 
 void Game::HandleMove() {
@@ -14,7 +61,7 @@ void Game::HandleMove() {
 		char currentMoveChoice;
 
 		std::cout << "\nWhich direction would you like to move?";
-		std::cout << "\nUp[W], Down[S], Left[A], Right[D]";
+		std::cout << "\nUp[W], Down[S], Left[A], Right[D]: ";
 		std::cin >> currentMoveChoice;
 
 		switch (std::toupper(currentMoveChoice)) {
@@ -74,11 +121,14 @@ void Game::HandleMove() {
 		}
 	}
 
-	board->DrawBoard(player->GetPosition());
+	// Re-draws the board after moving the player.
+	board->DrawBoard(player->GetPosition(), enemyList);
 }
 
 void Game::Update() {
 	while (this->playing) {
+
+		// Player move during update.
 		char currentChoice;
 
 		std::cout << "\nWould you like to Move[M], Attack[A], or Quit[Q]: ";
@@ -98,5 +148,8 @@ void Game::Update() {
 				std::cout << "Invalid input.";
 				break;
 		}
+
+		// AI move during update.
+
 	}
 }
